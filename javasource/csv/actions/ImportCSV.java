@@ -20,7 +20,6 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
-
 import csv.impl.CSV;
 
 /**
@@ -35,10 +34,11 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.Boolean useSystemContext;
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
+	private java.lang.String escapeCharacter;
 	private java.lang.Long skipLines;
 	private java.lang.String returnEntity;
 
-	public ImportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.Long skipLines, java.lang.String returnEntity)
+	public ImportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.Long skipLines, java.lang.String returnEntity)
 	{
 		super(context);
 		this.__file = file;
@@ -47,6 +47,7 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		this.useSystemContext = useSystemContext;
 		this.separator = separator;
 		this.quoteCharacter = quoteCharacter;
+		this.escapeCharacter = escapeCharacter;
 		this.skipLines = skipLines;
 		this.returnEntity = returnEntity;
 	}
@@ -62,16 +63,11 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		logger.debug("Opening CSV file..");
 		
 		CSVParserBuilder parserBuilder = new CSVParserBuilder()
-				.withSeparator(this.separator.charAt(0)); 
-		
-		if (this.quoteCharacter != null) {
-			parserBuilder.withQuoteChar(this.quoteCharacter.charAt(0));
-		} else {
-			parserBuilder.withQuoteChar(CSVWriter.NO_QUOTE_CHARACTER);
-		}
+				.withSeparator(this.separator == null ? CSVWriter.DEFAULT_SEPARATOR : this.separator.charAt(0))
+				.withQuoteChar(this.quoteCharacter == null ? CSVWriter.NO_QUOTE_CHARACTER : this.quoteCharacter.charAt(0))
+				.withEscapeChar(this.escapeCharacter == null ? CSVWriter.DEFAULT_ESCAPE_CHARACTER : this.escapeCharacter.charAt(0));
 		
 		CSVParser parser = parserBuilder.build();
-		
 		
 		CSVReader reader = new CSVReaderBuilder(new InputStreamReader(Core.getFileDocumentContent(getContext(), this.file.getMendixObject())))
 				.withSkipLines((int) skipLines.intValue())

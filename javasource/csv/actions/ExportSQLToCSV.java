@@ -54,8 +54,9 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.Boolean zipResult;
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
+	private java.lang.String escapeCharacter;
 
-	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter)
+	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
 	{
 		super(context);
 		this.statement = statement;
@@ -63,6 +64,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 		this.zipResult = zipResult;
 		this.separator = separator;
 		this.quoteCharacter = quoteCharacter;
+		this.escapeCharacter = escapeCharacter;
 	}
 
 	@java.lang.Override
@@ -112,9 +114,10 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 			}
 			
 			CSVWriter writer = new CSVWriter(new OutputStreamWriter(os),
-					separator == null ? ',' : separator.charAt(0),
-					quoteCharacter == null ? '\"' : quoteCharacter.charAt(0),
-					'\\', System.lineSeparator());
+					separator == null ? CSVWriter.DEFAULT_SEPARATOR : separator.charAt(0),
+					quoteCharacter == null ? CSVWriter.NO_QUOTE_CHARACTER : quoteCharacter.charAt(0),
+					escapeCharacter == null ? CSVWriter.NO_ESCAPE_CHARACTER : escapeCharacter.charAt(0),
+					System.lineSeparator());
 			
 			IMendixObject result = Core.instantiate(getContext(), this.returnEntity);
 			
