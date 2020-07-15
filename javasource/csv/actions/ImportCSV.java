@@ -19,6 +19,8 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
+
 import csv.impl.CSV;
 
 /**
@@ -64,9 +66,12 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		
 		if (this.quoteCharacter != null) {
 			parserBuilder.withQuoteChar(this.quoteCharacter.charAt(0));
+		} else {
+			parserBuilder.withQuoteChar(CSVWriter.NO_QUOTE_CHARACTER);
 		}
 		
 		CSVParser parser = parserBuilder.build();
+		
 		
 		CSVReader reader = new CSVReaderBuilder(new InputStreamReader(Core.getFileDocumentContent(getContext(), this.file.getMendixObject())))
 				.withSkipLines((int) skipLines.intValue())
