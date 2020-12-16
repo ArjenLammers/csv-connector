@@ -75,6 +75,9 @@ public class FileDocument
 		if (com.mendix.core.Core.isSubClassOf("MyFirstModule.CSV", mendixObject.getType()))
 			return myfirstmodule.proxies.CSV.initialize(context, mendixObject);
 
+		if (com.mendix.core.Core.isSubClassOf("MyFirstModule.Export", mendixObject.getType()))
+			return myfirstmodule.proxies.Export.initialize(context, mendixObject);
+
 		if (com.mendix.core.Core.isSubClassOf("System.Image", mendixObject.getType()))
 			return system.proxies.Image.initialize(context, mendixObject);
 

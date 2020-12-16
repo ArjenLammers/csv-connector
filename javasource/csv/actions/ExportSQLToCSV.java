@@ -50,16 +50,18 @@ import system.proxies.FileDocument;
 public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 {
 	private java.lang.String statement;
+	private java.lang.Boolean exportHeaders;
 	private java.lang.String returnEntity;
 	private java.lang.Boolean zipResult;
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
 
-	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
+	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
 	{
 		super(context);
 		this.statement = statement;
+		this.exportHeaders = exportHeaders;
 		this.returnEntity = returnEntity;
 		this.zipResult = zipResult;
 		this.separator = separator;
@@ -129,6 +131,14 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 			
 			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData metaData = rs.getMetaData();
+			
+			if (exportHeaders) {
+				String[] headers = new String[metaData.getColumnCount()];
+				for (int i = 0; i < headers.length; i++) {
+					headers[i] = metaData.getColumnName(i + 1);
+				}
+				writer.writeNext(headers);
+			}
 			
 			while(rs.next()) {
 				String[] csvRow = new String[metaData.getColumnCount()];

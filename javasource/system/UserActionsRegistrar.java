@@ -12,6 +12,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(csv.actions.ExportOQLToCSV.class);
     registrator.registerUserAction(csv.actions.ExportSQLToCSV.class);
     registrator.registerUserAction(csv.actions.ImportCSV.class);
+    registrator.registerUserAction(csv.actions.ImportCSVUsingSQL.class);
     registrator.registerUserAction(csv.actions.ReadNextLine.class);
     registrator.registerUserAction(csv.actions.WriteNextLine.class);
     registrator.registerUserAction(oql.actions.AddBooleanParameter.class);

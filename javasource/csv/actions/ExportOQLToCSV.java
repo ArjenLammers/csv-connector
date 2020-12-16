@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.connectionbus.data.IDataRow;
@@ -27,27 +28,31 @@ import com.mendix.systemwideinterfaces.connectionbus.requests.IParameterMap;
 import com.mendix.systemwideinterfaces.connectionbus.requests.IRetrievalSchema;
 import com.mendix.systemwideinterfaces.connectionbus.requests.types.IOQLTextGetRequest;
 import com.mendix.systemwideinterfaces.core.IContext;
+import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVWriter;
+
 import csv.impl.CSV;
 import oql.implementation.OQL;
 import system.proxies.FileDocument;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 {
 	private java.lang.String statement;
-	private IMendixObject returnEntity;
+	private java.lang.Boolean exportHeaders;
+	private java.lang.String returnEntity;
 	private java.lang.Boolean removeNewLinesFromValues;
 	private java.lang.Boolean zipResult;
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
 
-	public ExportOQLToCSV(IContext context, java.lang.String statement, IMendixObject returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
+	public ExportOQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
 	{
 		super(context);
 		this.statement = statement;
+		this.exportHeaders = exportHeaders;
 		this.returnEntity = returnEntity;
 		this.removeNewLinesFromValues = removeNewLinesFromValues;
 		this.zipResult = zipResult;
@@ -85,7 +90,7 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 				escapeCharacter == null ? CSVWriter.NO_ESCAPE_CHARACTER : escapeCharacter.charAt(0),
 				System.lineSeparator());
 		
-		IMendixObject result = Core.instantiate(getContext(), this.returnEntity.getType());
+		IMendixObject result = Core.instantiate(getContext(), this.returnEntity);
 		
 		logger.debug("Executing query");
 		
@@ -95,6 +100,14 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 			IContext context = getContext().createSudoClone();
 			IDataTable results = Core.retrieveOQLDataTable(context, buildRequest(offset, PAGE_SIZE));
 			IDataTableSchema tableSchema = results.getSchema();
+			if (offset == 0 && exportHeaders) {
+				String[] headers = new String[tableSchema.getColumnCount()];
+				for (int i = 0; i < tableSchema.getColumnCount(); i++) {
+					headers[i] = tableSchema.getColumnSchema(i).getName();
+				}
+				writer.writeNext(headers);
+			}
+			
 			for (IDataRow row : results.getRows()) {
 				String[] values = new String[tableSchema.getColumnCount()];
 				for (int i = 0; i < tableSchema.getColumnCount(); i++) {
@@ -104,6 +117,8 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 					} else {
 						if (value instanceof Date) {
 							values[i] = Long.toString(((Date) value).getTime()); // use timestamp to export for more precision than just seconds.
+						} else if (value instanceof IMendixIdentifier) {
+							values[i] = Long.toString(((IMendixIdentifier) value).toLong());
 						} else {
 							values[i] = value.toString();
 						}
