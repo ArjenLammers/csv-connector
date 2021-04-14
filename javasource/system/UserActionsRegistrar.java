@@ -18,7 +18,6 @@ public class UserActionsRegistrar
     registrator.registerUserAction(oql.actions.AddBooleanParameter.class);
     registrator.registerUserAction(oql.actions.AddDateTimeParameter.class);
     registrator.registerUserAction(oql.actions.AddDecimalParameter.class);
-    registrator.registerUserAction(oql.actions.AddFloatValue.class);
     registrator.registerUserAction(oql.actions.AddIntegerLongValue.class);
     registrator.registerUserAction(oql.actions.AddObjectParameter.class);
     registrator.registerUserAction(oql.actions.AddStringParameter.class);
