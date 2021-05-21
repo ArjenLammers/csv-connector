@@ -17,6 +17,7 @@ import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IDataType;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
 import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -90,9 +91,18 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 			if (this.microflowParameter != null) {
 				String argument = null;
 				for(Entry<String, IDataType> entry : Core.getInputParameters(microflow).entrySet()) {
-					if (entry.getValue().checkTypeForValue(this.microflowParameter)) {
-						argument = entry.getKey();
-						break;
+					IDataType dataType = entry.getValue();
+					if (dataType.isMendixObject()) {
+						if (dataType.getObjectType().equals(microflowParameter.getType())) {
+							argument = entry.getKey();
+							break;
+						}
+ 						
+						IMetaObject metaObject = Core.getMetaObject(dataType.getObjectType());
+						if (microflowParameter.getMetaObject().isSubClassOf(metaObject)) {
+							argument = entry.getKey();
+							break;
+						}
 					}
 				}
 					
