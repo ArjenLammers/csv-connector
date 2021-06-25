@@ -12,27 +12,30 @@ package csv.actions;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Function;
+
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
+import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
 import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+
 import csv.impl.CSV;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
-import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
 
 /**
  * Imports a full CSV dataset using optimized SQL batches.
@@ -259,7 +262,8 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 					}
 					break;
 				case DateTime:
-					insertStatement.setDate(offset, new Date(Long.parseLong(line[i])));
+					insertStatement.setTimestamp(offset, new java.sql.Timestamp(Long.parseLong(line[i])),
+							Calendar.getInstance(TimeZone.getTimeZone("UTC")));
 					break;
 				case Boolean:
 					insertStatement.setBoolean(offset, line[i].equalsIgnoreCase("true") || line[i].equals("1"));
