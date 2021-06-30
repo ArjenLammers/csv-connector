@@ -74,6 +74,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 	{
 		// BEGIN USER CODE
 		IMendixObject result = Core.dataStorage().executeWithConnection(
+				getContext(),
 				executeExport(statement, returnEntity,  
 						zipResult, separator, quoteCharacter));
 		return result;
