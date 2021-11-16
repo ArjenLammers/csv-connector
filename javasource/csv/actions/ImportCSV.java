@@ -41,8 +41,9 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.String escapeCharacter;
 	private java.lang.Long skipLines;
 	private java.lang.String returnEntity;
+	private java.lang.String characterSet;
 
-	public ImportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.Long skipLines, java.lang.String returnEntity)
+	public ImportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.Long skipLines, java.lang.String returnEntity, java.lang.String characterSet)
 	{
 		super(context);
 		this.__file = file;
@@ -54,6 +55,7 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		this.escapeCharacter = escapeCharacter;
 		this.skipLines = skipLines;
 		this.returnEntity = returnEntity;
+		this.characterSet = characterSet;
 	}
 
 	@java.lang.Override
@@ -73,7 +75,11 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		
 		CSVParser parser = parserBuilder.build();
 		
-		CSVReader reader = new CSVReaderBuilder(new InputStreamReader(Core.getFileDocumentContent(getContext(), this.file.getMendixObject())))
+		CSVReader reader = new CSVReaderBuilder(
+					new InputStreamReader(Core.getFileDocumentContent(getContext(), this.file.getMendixObject()), 
+							(this.characterSet != null ? this.characterSet : "UTF-8")
+					)
+				)
 				.withSkipLines((int) skipLines.intValue())
 				.withCSVParser(parser)
 				.build();

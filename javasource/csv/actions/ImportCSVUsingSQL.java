@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.function.Function;
-
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
@@ -34,7 +33,6 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-
 import csv.impl.CSV;
 
 /**
@@ -62,8 +60,9 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 	private java.lang.String quoteChar;
 	private java.lang.Long skipLines;
 	private java.lang.String targetEntity;
+	private java.lang.String characterSet;
 
-	public ImportCSVUsingSQL(IContext context, IMendixObject file, java.lang.String separator, java.lang.String quoteChar, java.lang.Long skipLines, java.lang.String targetEntity)
+	public ImportCSVUsingSQL(IContext context, IMendixObject file, java.lang.String separator, java.lang.String quoteChar, java.lang.Long skipLines, java.lang.String targetEntity, java.lang.String characterSet)
 	{
 		super(context);
 		this.__file = file;
@@ -71,6 +70,7 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 		this.quoteChar = quoteChar;
 		this.skipLines = skipLines;
 		this.targetEntity = targetEntity;
+		this.characterSet = characterSet;
 	}
 
 	@java.lang.Override
@@ -109,8 +109,10 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 				}
 				
 				CSVParser parser = parserBuilder.build();
-				CSVReaderBuilder readerBuilder = new CSVReaderBuilder(new InputStreamReader(
-						Core.getFileDocumentContent(getContext(), this.file.getMendixObject())));
+				CSVReaderBuilder readerBuilder = new CSVReaderBuilder(
+						new InputStreamReader(Core.getFileDocumentContent(getContext(), this.file.getMendixObject()), 
+						(this.characterSet != null ? this.characterSet : "UTF-8")
+				));
 				if (skipLines != 0) { 
 					readerBuilder.withSkipLines(skipLines.intValue() - 1);
 				}

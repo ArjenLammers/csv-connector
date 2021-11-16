@@ -9,9 +9,12 @@
 
 package csv.actions;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.util.Map.Entry;
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
@@ -37,8 +40,9 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
+	private java.lang.String characterSet;
 
-	public ExportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
+	public ExportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet)
 	{
 		super(context);
 		this.__file = file;
@@ -48,6 +52,7 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
 		this.separator = separator;
 		this.quoteCharacter = quoteCharacter;
 		this.escapeCharacter = escapeCharacter;
+		this.characterSet = characterSet;
 	}
 
 	@java.lang.Override
@@ -61,7 +66,9 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
 		logger.debug("Opening CSV file..");
 	
 		File tmpFile = File.createTempFile("export-", ".csv");
-		CSVWriter writer = new CSVWriter(new FileWriter(tmpFile), 
+		CSVWriter writer = new CSVWriter(
+				new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tmpFile), 
+						(this.characterSet != null ? this.characterSet : "UTF-8"))),
                 this.separator.charAt(0), 
                 this.quoteCharacter != null ? this.quoteCharacter.charAt(0) : CSVWriter.NO_QUOTE_CHARACTER, 
                 		this.escapeCharacter != null ? this.escapeCharacter.charAt(0) : CSVWriter.NO_ESCAPE_CHARACTER, 

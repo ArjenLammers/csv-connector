@@ -45,8 +45,9 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
+	private java.lang.String charcterSet;
 
-	public ExportOQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter)
+	public ExportOQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String charcterSet)
 	{
 		super(context);
 		this.statement = statement;
@@ -57,6 +58,7 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 		this.separator = separator;
 		this.quoteCharacter = quoteCharacter;
 		this.escapeCharacter = escapeCharacter;
+		this.charcterSet = charcterSet;
 	}
 
 	@java.lang.Override

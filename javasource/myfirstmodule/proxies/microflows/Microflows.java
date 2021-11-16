@@ -10,14 +10,50 @@ import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
 	// These are the microflows for the MyFirstModule module
+	public static void aCT_TestExportOQLWCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_TestExportOQLWCharset").withParams(params).execute(context);
+	}
+	public static void aCT_TestExportSQLWCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_TestExportSQLWCharset").withParams(params).execute(context);
+	}
+	public static void aCT_TestExportWCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_TestExportWCharset").withParams(params).execute(context);
+	}
+	public static void aCT_TestImportSQLWCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_TestImportSQLWCharset").withParams(params).execute(context);
+	}
+	public static void aCT_TestImportWCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_TestImportWCharset").withParams(params).execute(context);
+	}
 	public static java.lang.String calc_Attr(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		return (java.lang.String) Core.microflowCall("MyFirstModule.Calc_Attr").withParams(params).execute(context);
+	}
+	public static void cSV_ExportJPCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.CSV_ExportJPCharset").withParams(params).execute(context);
+	}
+	public static void cSV_ImportJPCharset(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.CSV_ImportJPCharset").withParams(params).execute(context);
 	}
 	public static void iVK_ExportUsingOQL(IContext context)
 	{
@@ -40,5 +76,17 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("CSV", _cSV == null ? null : _cSV.getMendixObject());
 		Core.microflowCall("MyFirstModule.IVK_ImportUsingSQL").withParams(params).execute(context);
+	}
+	public static myfirstmodule.proxies.CSV sub_CreateJPCSV(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		IMendixObject result = (IMendixObject)Core.microflowCall("MyFirstModule.Sub_CreateJPCSV").withParams(params).execute(context);
+		return result == null ? null : myfirstmodule.proxies.CSV.initialize(context, result);
+	}
+	public static myfirstmodule.proxies.Export sub_CreateJPCSVSQL(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		IMendixObject result = (IMendixObject)Core.microflowCall("MyFirstModule.Sub_CreateJPCSVSQL").withParams(params).execute(context);
+		return result == null ? null : myfirstmodule.proxies.Export.initialize(context, result);
 	}
 }
