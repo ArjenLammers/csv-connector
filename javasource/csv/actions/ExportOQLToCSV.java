@@ -45,9 +45,9 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.String separator;
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
-	private java.lang.String charcterSet;
+	private java.lang.String characterSet;
 
-	public ExportOQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String charcterSet)
+	public ExportOQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet)
 	{
 		super(context);
 		this.statement = statement;
@@ -58,7 +58,7 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 		this.separator = separator;
 		this.quoteCharacter = quoteCharacter;
 		this.escapeCharacter = escapeCharacter;
-		this.charcterSet = charcterSet;
+		this.characterSet = characterSet;
 	}
 
 	@java.lang.Override
@@ -84,7 +84,7 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 			os = fos;
 		}
 		
-		CSVWriter writer = new CSVWriter(new OutputStreamWriter(os),
+		CSVWriter writer = new CSVWriter(new OutputStreamWriter(os, (this.characterSet != null ? this.characterSet : "UTF-8")),
 				separator == null ? CSVWriter.DEFAULT_SEPARATOR : separator.charAt(0),
 				quoteCharacter == null ? CSVWriter.NO_QUOTE_CHARACTER : quoteCharacter.charAt(0),
 				escapeCharacter == null ? CSVWriter.NO_ESCAPE_CHARACTER : escapeCharacter.charAt(0),

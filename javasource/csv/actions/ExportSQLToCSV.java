@@ -118,7 +118,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 				os = fos;
 			}
 			
-			CSVWriter writer = new CSVWriter(new OutputStreamWriter(os),
+			CSVWriter writer = new CSVWriter(new OutputStreamWriter(os, (this.characterSet != null ? this.characterSet : "UTF-8")),
 					separator == null ? CSVWriter.DEFAULT_SEPARATOR : separator.charAt(0),
 					quoteCharacter == null ? CSVWriter.NO_QUOTE_CHARACTER : quoteCharacter.charAt(0),
 					escapeCharacter == null ? CSVWriter.NO_ESCAPE_CHARACTER : escapeCharacter.charAt(0),
