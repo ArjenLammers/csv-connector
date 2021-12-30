@@ -15,6 +15,11 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the MyFirstModule module
+	public static void aCT_DeleteAll(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_DeleteAll").withParams(params).execute(context);
+	}
 	public static void aCT_TestExportOQLWCharset(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();

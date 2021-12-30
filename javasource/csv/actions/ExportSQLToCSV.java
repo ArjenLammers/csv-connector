@@ -23,7 +23,9 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -171,7 +173,8 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 						break;
 					case Types.TIMESTAMP:
 					case Types.TIMESTAMP_WITH_TIMEZONE:
-						Timestamp ts = rs.getTimestamp(i);
+						Timestamp ts = rs.getTimestamp(i, 
+								Calendar.getInstance(TimeZone.getTimeZone("UTC")));
 						if (ts != null) {
 							val = Long.toString(ts.getTime());
 						}
