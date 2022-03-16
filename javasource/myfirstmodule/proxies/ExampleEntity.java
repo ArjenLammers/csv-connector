@@ -32,7 +32,8 @@ public class ExampleEntity
 		DateTimeAttrNoDef("DateTimeAttrNoDef"),
 		EnumAttr("EnumAttr"),
 		EnumAttrNoDef("EnumAttrNoDef"),
-		CalculatedAttr("CalculatedAttr");
+		CalculatedAttr("CalculatedAttr"),
+		DecimalAttr("DecimalAttr");
 
 		private java.lang.String metaName;
 
@@ -609,6 +610,42 @@ public class ExampleEntity
 	public final void setCalculatedAttr(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String calculatedattr)
 	{
 		getMendixObject().setValue(context, MemberNames.CalculatedAttr.toString(), calculatedattr);
+	}
+
+	/**
+	 * @return value of DecimalAttr
+	 */
+	public final java.math.BigDecimal getDecimalAttr()
+	{
+		return getDecimalAttr(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of DecimalAttr
+	 */
+	public final java.math.BigDecimal getDecimalAttr(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.math.BigDecimal) getMendixObject().getValue(context, MemberNames.DecimalAttr.toString());
+	}
+
+	/**
+	 * Set value of DecimalAttr
+	 * @param decimalattr
+	 */
+	public final void setDecimalAttr(java.math.BigDecimal decimalattr)
+	{
+		setDecimalAttr(getContext(), decimalattr);
+	}
+
+	/**
+	 * Set value of DecimalAttr
+	 * @param context
+	 * @param decimalattr
+	 */
+	public final void setDecimalAttr(com.mendix.systemwideinterfaces.core.IContext context, java.math.BigDecimal decimalattr)
+	{
+		getMendixObject().setValue(context, MemberNames.DecimalAttr.toString(), decimalattr);
 	}
 
 	/**

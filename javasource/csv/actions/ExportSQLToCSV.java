@@ -23,6 +23,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -59,8 +60,10 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 	private java.lang.String quoteCharacter;
 	private java.lang.String escapeCharacter;
 	private java.lang.String characterSet;
+	private java.lang.String decimalSeparator;
+	private java.lang.String groupingSeparator;
 
-	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet)
+	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet, java.lang.String decimalSeparator, java.lang.String groupingSeparator)
 	{
 		super(context);
 		this.statement = statement;
@@ -71,6 +74,8 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 		this.quoteCharacter = quoteCharacter;
 		this.escapeCharacter = escapeCharacter;
 		this.characterSet = characterSet;
+		this.decimalSeparator = decimalSeparator;
+		this.groupingSeparator = groupingSeparator;
 	}
 
 	@java.lang.Override
@@ -137,6 +142,8 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData metaData = rs.getMetaData();
 			
+			DecimalFormat df = CSV.getDecimalFormat(decimalSeparator, groupingSeparator);
+			
 			if (exportHeaders) {
 				String[] headers = new String[metaData.getColumnCount()];
 				for (int i = 0; i < headers.length; i++) {
@@ -156,7 +163,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 					case Types.BIGINT:
 						BigDecimal bd = rs.getBigDecimal(i);
 						if (bd != null)
-							val = bd.toPlainString();
+							val = df.format(bd);
 						break;
 					case Types.CLOB:
 						Clob clob = rs.getClob(i);
@@ -189,7 +196,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 					case Types.DECIMAL:
 						BigDecimal r = rs.getBigDecimal(i);
 						if (r != null) {
-							val = r.toString();
+							val = df.format(r);
 						}
 						break;
 					case Types.DOUBLE:

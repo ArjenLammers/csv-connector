@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -61,8 +63,10 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 	private java.lang.Long skipLines;
 	private java.lang.String targetEntity;
 	private java.lang.String characterSet;
+	private java.lang.String decimalSeparator;
+	private java.lang.String groupingSeparator;
 
-	public ImportCSVUsingSQL(IContext context, IMendixObject file, java.lang.String separator, java.lang.String quoteChar, java.lang.Long skipLines, java.lang.String targetEntity, java.lang.String characterSet)
+	public ImportCSVUsingSQL(IContext context, IMendixObject file, java.lang.String separator, java.lang.String quoteChar, java.lang.Long skipLines, java.lang.String targetEntity, java.lang.String characterSet, java.lang.String decimalSeparator, java.lang.String groupingSeparator)
 	{
 		super(context);
 		this.__file = file;
@@ -71,6 +75,8 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 		this.skipLines = skipLines;
 		this.targetEntity = targetEntity;
 		this.characterSet = characterSet;
+		this.decimalSeparator = decimalSeparator;
+		this.groupingSeparator = groupingSeparator;
 	}
 
 	@java.lang.Override
@@ -214,6 +220,8 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 			Map<String, IMetaPrimitive> columnMapping, List<String[]> buffer) throws Exception {
 		IMetaObject metaObject = Core.getMetaObject(entity);
 		String table =  Core.getDatabaseTableName(metaObject);
+		DecimalFormat df = CSV.getDecimalFormat(decimalSeparator, groupingSeparator);
+
 		Long id = getNextIDForBatch(metaObject.getName(), buffer.size());
 		String insertQuery = "INSERT INTO " + table + " (id";
 		
@@ -253,8 +261,8 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 				case Integer:
 					insertStatement.setInt(offset, Integer.parseInt(line[i]));
 					break;
-				case Long: 
-					insertStatement.setBigDecimal(offset, new BigDecimal(line[i]));
+				case Long:
+					insertStatement.setBigDecimal(offset, (BigDecimal) df.parse(line[i]));
 					break;
 				case Enum:
 					if (primitive.getEnumeration().getEnumValues().containsKey(line[i])) {
@@ -269,6 +277,9 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 					break;
 				case Boolean:
 					insertStatement.setBoolean(offset, line[i].equalsIgnoreCase("true") || line[i].equals("1"));
+					break;
+				case Decimal:
+					insertStatement.setBigDecimal(offset, (BigDecimal) df.parse(line[i]));
 					break;
 				default:
 					throw new RuntimeException("Type "+ primitive.getType().toString() + " not supported.");

@@ -70,16 +70,32 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("MyFirstModule.IVK_ExportUsingSQL").withParams(params).execute(context);
 	}
-	public static void iVK_Import(IContext context, myfirstmodule.proxies.CSV _cSV)
+	public static void iVK_Import(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("CSV", _cSV == null ? null : _cSV.getMendixObject());
+		java.util.ArrayList<IMendixObject> listparam_cSVs = null;
+		if (_cSVs != null)
+		{
+			listparam_cSVs = new java.util.ArrayList<>();
+			for (myfirstmodule.proxies.CSV obj : _cSVs)
+				listparam_cSVs.add(obj.getMendixObject());
+		}
+		params.put("CSVs", listparam_cSVs);
+
 		Core.microflowCall("MyFirstModule.IVK_Import").withParams(params).execute(context);
 	}
-	public static void iVK_ImportUsingSQL(IContext context, myfirstmodule.proxies.CSV _cSV)
+	public static void iVK_ImportUsingSQL(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("CSV", _cSV == null ? null : _cSV.getMendixObject());
+		java.util.ArrayList<IMendixObject> listparam_cSVs = null;
+		if (_cSVs != null)
+		{
+			listparam_cSVs = new java.util.ArrayList<>();
+			for (myfirstmodule.proxies.CSV obj : _cSVs)
+				listparam_cSVs.add(obj.getMendixObject());
+		}
+		params.put("CSVs", listparam_cSVs);
+
 		Core.microflowCall("MyFirstModule.IVK_ImportUsingSQL").withParams(params).execute(context);
 	}
 	public static myfirstmodule.proxies.CSV sub_CreateJPCSV(IContext context)
