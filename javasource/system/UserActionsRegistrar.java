@@ -109,6 +109,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(csv.actions.ImportCSV.class);
     registrator.registerUserAction(csv.actions.ImportCSVUsingSQL.class);
     registrator.registerUserAction(csv.actions.ReadNextLine.class);
+    registrator.registerUserAction(csv.actions.WriteHeaderToCSV.class);
     registrator.registerUserAction(csv.actions.WriteNextLine.class);
     registrator.registerUserAction(oql.actions.AddBooleanParameter.class);
     registrator.registerUserAction(oql.actions.AddDateTimeParameter.class);

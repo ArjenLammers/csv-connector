@@ -52,30 +52,19 @@ public class WriteNextLine extends CustomJavaAction<java.lang.Boolean>
 	{
 		// BEGIN USER CODE
 		ILogNode logger = CSV.getLogger();
-		Object contextObj = getContext().getData().get(CSV.CONTEXT_WRITER_OBJ);
-		if (contextObj == null || !(contextObj instanceof CSVWriter)) {
-			throw new CoreException("Reader not found, this action should be invoked from a Export CSV microflow.");
-		}
-		
+		CSVWriter writer = CSV.getCSVWriter(getContext());
 		@SuppressWarnings("resource") // reader is closed by the ImportCSV action
-		CSVWriter writer = (CSVWriter) contextObj;
+
 		IMetaObject metaObject = line.getMetaObject();
 		String[] csvLine = new String[metaObject.getDeclaredMetaPrimitives().size()];
-		String[] attributes = new String[metaObject.getDeclaredMetaPrimitives().size()];
-		int offset = 0;
-		
-		for (IMetaPrimitive primitive : metaObject.getDeclaredMetaPrimitives()) {
-			attributes[offset] = primitive.getName();
-			offset++;
-		}
-		Arrays.sort(attributes);
-		
-		for (offset = 0; offset < attributes.length; offset++) {
-			Object value = line.getValue(getContext(), attributes[offset]);
+		String[] attributes = CSV.getAttributes(metaObject);
+
+		for (int i = 0; i < attributes.length; i++) {
+			Object value = line.getValue(getContext(), attributes[i]);
 			if (value != null) {
-				csvLine[offset] = value.toString();
+				csvLine[i] = value.toString();
 			} else {
-				csvLine[offset] = null;
+				csvLine[i] = null;
 			}
 		}
 		writer.writeNext(csvLine);
