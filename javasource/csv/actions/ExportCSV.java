@@ -73,7 +73,7 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
                 this.quoteCharacter != null ? this.quoteCharacter.charAt(0) : CSVWriter.NO_QUOTE_CHARACTER, 
                 		this.escapeCharacter != null ? this.escapeCharacter.charAt(0) : CSVWriter.NO_ESCAPE_CHARACTER, 
                 		"\r\n");
-		
+
 		logger.debug("CSV file opened..");
 		
 		IContext context = getContext();

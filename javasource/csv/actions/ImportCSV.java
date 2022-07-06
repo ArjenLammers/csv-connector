@@ -71,7 +71,7 @@ public class ImportCSV extends CustomJavaAction<IMendixObject>
 		CSVParserBuilder parserBuilder = new CSVParserBuilder()
 				.withSeparator(this.separator == null ? CSVWriter.DEFAULT_SEPARATOR : this.separator.charAt(0))
 				.withQuoteChar(this.quoteCharacter == null ? CSVWriter.NO_QUOTE_CHARACTER : this.quoteCharacter.charAt(0))
-				.withEscapeChar(this.escapeCharacter == null ? CSVWriter.DEFAULT_ESCAPE_CHARACTER : this.escapeCharacter.charAt(0));
+				.withEscapeChar(this.escapeCharacter == null ? CSVWriter.NO_ESCAPE_CHARACTER : this.escapeCharacter.charAt(0));
 		
 		CSVParser parser = parserBuilder.build();
 		
