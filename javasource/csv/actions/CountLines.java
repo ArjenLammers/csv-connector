@@ -60,7 +60,7 @@ public class CountLines extends CustomJavaAction<java.lang.Long>
 			counter++;
 		}
 		
-		return counter - skipLines;
+		return counter;
 		// END USER CODE
 	}
 
