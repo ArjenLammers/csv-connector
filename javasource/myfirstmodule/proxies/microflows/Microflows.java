@@ -20,6 +20,11 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("MyFirstModule.ACT_DeleteAll").withParams(params).execute(context);
 	}
+	public static void aCT_ExportWithoutQuoteEscapeChar(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("MyFirstModule.ACT_ExportWithoutQuoteEscapeChar").withParams(params).execute(context);
+	}
 	public static void aCT_TestExportOQLWCharset(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
