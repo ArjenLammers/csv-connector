@@ -130,7 +130,7 @@ public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
 			
 			logger.debug("Executing query");
 			
-			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+			Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, 
 					ResultSet.CONCUR_READ_ONLY);
 			statement.setFetchSize(PAGE_SIZE);
 			
