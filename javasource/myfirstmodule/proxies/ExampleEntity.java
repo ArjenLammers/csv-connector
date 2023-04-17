@@ -35,7 +35,7 @@ public class ExampleEntity
 		CalculatedAttr("CalculatedAttr"),
 		DecimalAttr("DecimalAttr");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -51,15 +51,17 @@ public class ExampleEntity
 
 	public ExampleEntity(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "MyFirstModule.ExampleEntity"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected ExampleEntity(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject exampleEntityMendixObject)
 	{
-		if (exampleEntityMendixObject == null)
+		if (exampleEntityMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("MyFirstModule.ExampleEntity", exampleEntityMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a MyFirstModule.ExampleEntity");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, exampleEntityMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.exampleEntityMendixObject = exampleEntityMendixObject;
 		this.context = context;
@@ -77,6 +79,9 @@ public class ExampleEntity
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static myfirstmodule.proxies.ExampleEntity initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -91,14 +96,16 @@ public class ExampleEntity
 
 	public static java.util.List<myfirstmodule.proxies.ExampleEntity> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<myfirstmodule.proxies.ExampleEntity> result = new java.util.ArrayList<myfirstmodule.proxies.ExampleEntity>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//MyFirstModule.ExampleEntity" + xpathConstraint))
-			result.add(myfirstmodule.proxies.ExampleEntity.initialize(context, obj));
-		return result;
+		return com.mendix.core.Core.createXPathQuery(String.format("//%1$s%2$s", entityName, xpathConstraint))
+			.execute(context)
+			.stream()
+			.map(obj -> myfirstmodule.proxies.ExampleEntity.initialize(context, obj))
+			.collect(java.util.stream.Collectors.toList());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -107,6 +114,7 @@ public class ExampleEntity
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -504,9 +512,9 @@ public class ExampleEntity
 	public final myfirstmodule.proxies.TestEnum getEnumAttr(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.EnumAttr.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return myfirstmodule.proxies.TestEnum.valueOf((java.lang.String) obj);
 	}
 
@@ -526,10 +534,11 @@ public class ExampleEntity
 	 */
 	public final void setEnumAttr(com.mendix.systemwideinterfaces.core.IContext context, myfirstmodule.proxies.TestEnum enumattr)
 	{
-		if (enumattr != null)
+		if (enumattr != null) {
 			getMendixObject().setValue(context, MemberNames.EnumAttr.toString(), enumattr.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EnumAttr.toString(), null);
+		}
 	}
 
 	/**
@@ -548,9 +557,9 @@ public class ExampleEntity
 	public final myfirstmodule.proxies.TestEnum getEnumAttrNoDef(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.EnumAttrNoDef.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return myfirstmodule.proxies.TestEnum.valueOf((java.lang.String) obj);
 	}
 
@@ -570,10 +579,11 @@ public class ExampleEntity
 	 */
 	public final void setEnumAttrNoDef(com.mendix.systemwideinterfaces.core.IContext context, myfirstmodule.proxies.TestEnum enumattrnodef)
 	{
-		if (enumattrnodef != null)
+		if (enumattrnodef != null) {
 			getMendixObject().setValue(context, MemberNames.EnumAttrNoDef.toString(), enumattrnodef.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.EnumAttrNoDef.toString(), null);
+		}
 	}
 
 	/**
@@ -667,9 +677,9 @@ public class ExampleEntity
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final myfirstmodule.proxies.ExampleEntity that = (myfirstmodule.proxies.ExampleEntity) obj;
@@ -689,7 +699,7 @@ public class ExampleEntity
 	 */
 	public static java.lang.String getType()
 	{
-		return "MyFirstModule.ExampleEntity";
+		return entityName;
 	}
 
 	/**

@@ -82,7 +82,7 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 	@java.lang.Override
 	public java.lang.Long executeAction() throws Exception
 	{
-		this.file = __file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
+		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
 
 		// BEGIN USER CODE
 		Long result = Core.dataStorage().executeWithConnection(getContext(), executeConnectionAction());
@@ -93,6 +93,7 @@ public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

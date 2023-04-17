@@ -7,13 +7,19 @@ package myfirstmodule.proxies.microflows;
 import java.util.HashMap;
 import java.util.Map;
 import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
+	/**
+	 * @deprecated
+	 * The default constructor of the Microflows class should not be used.
+	 * Use the static microflow invocation methods instead.
+	 */
+	@java.lang.Deprecated(since = "9.12", forRemoval = true)
+	public Microflows() {}
+
 	// These are the microflows for the MyFirstModule module
 	public static void aCT_DeleteAll(IContext context)
 	{
@@ -78,12 +84,13 @@ public class Microflows
 	public static void iVK_Import(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_cSVs = null;
+		java.util.List<IMendixObject> listparam_cSVs = null;
 		if (_cSVs != null)
 		{
 			listparam_cSVs = new java.util.ArrayList<>();
-			for (myfirstmodule.proxies.CSV obj : _cSVs)
+			for (var obj : _cSVs) {
 				listparam_cSVs.add(obj.getMendixObject());
+			}
 		}
 		params.put("CSVs", listparam_cSVs);
 
@@ -92,12 +99,13 @@ public class Microflows
 	public static void iVK_ImportUsingSQL(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_cSVs = null;
+		java.util.List<IMendixObject> listparam_cSVs = null;
 		if (_cSVs != null)
 		{
 			listparam_cSVs = new java.util.ArrayList<>();
-			for (myfirstmodule.proxies.CSV obj : _cSVs)
+			for (var obj : _cSVs) {
 				listparam_cSVs.add(obj.getMendixObject());
+			}
 		}
 		params.put("CSVs", listparam_cSVs);
 

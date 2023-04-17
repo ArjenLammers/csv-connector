@@ -58,7 +58,7 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.file = __file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
+		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
 
 		// BEGIN USER CODE
 		ILogNode logger = CSV.getLogger();
@@ -134,6 +134,7 @@ public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()
