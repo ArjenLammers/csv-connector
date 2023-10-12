@@ -63,7 +63,7 @@ public class ReadNextLine extends CustomJavaAction<IMendixObject>
 		CSVReader reader = (CSVReader) contextObj;
 
 		// This is implemented because declared primitives are returned in a different order than declared within the model.
-		Collection<? extends IMetaPrimitive> attributes = Core.getMetaObject(this.entity).getDeclaredMetaPrimitives();
+		Collection<? extends IMetaPrimitive> attributes = Core.getMetaObject(this.entity).getMetaPrimitives();
 		List<String> attributeNames = new LinkedList<String>();
 		for (IMetaPrimitive attribute : attributes) {
 			String name = attribute.getName();
