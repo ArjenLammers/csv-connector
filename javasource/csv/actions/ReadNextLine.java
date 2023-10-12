@@ -83,7 +83,9 @@ public class ReadNextLine extends CustomJavaAction<IMendixObject>
 		
 		IMendixObject result = Core.instantiate(getContext(), this.entity);
 		int counter = 0;
+		int maxCount = line.length;
 		for (String attributeName : attributeNames) {
+			if (counter == maxCount) return result;
 			result.setValue(getContext(), attributeName, line[counter]);
 			counter++;
 		}
