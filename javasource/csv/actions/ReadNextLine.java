@@ -62,8 +62,7 @@ public class ReadNextLine extends CustomJavaAction<IMendixObject>
 		@SuppressWarnings("resource") // reader is closed by the ImportCSV action
 		CSVReader reader = (CSVReader) contextObj;
 
-		// This is implemented because declared primitives are returned in a different order than declared within the model.
-		Collection<? extends IMetaPrimitive> attributes = Core.getMetaObject(this.entity).getDeclaredMetaPrimitives();
+		Collection<? extends IMetaPrimitive> attributes = Core.getMetaObject(this.entity).getMetaPrimitives();
 		List<String> attributeNames = new LinkedList<String>();
 		for (IMetaPrimitive attribute : attributes) {
 			String name = attribute.getName();
@@ -73,7 +72,6 @@ public class ReadNextLine extends CustomJavaAction<IMendixObject>
 			}
 			attributeNames.add(name);
 		}
-		Collections.sort(attributeNames);
 		
 		String line[] = reader.readNext();
 		if (line == null) {
@@ -84,6 +82,7 @@ public class ReadNextLine extends CustomJavaAction<IMendixObject>
 		IMendixObject result = Core.instantiate(getContext(), this.entity);
 		int counter = 0;
 		for (String attributeName : attributeNames) {
+			if (counter >= line.length) break;
 			result.setValue(getContext(), attributeName, line[counter]);
 			counter++;
 		}
