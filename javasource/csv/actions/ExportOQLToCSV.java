@@ -133,7 +133,6 @@ public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
 			if (results.getRowCount() != PAGE_SIZE) {
 				break;
 			}
-			results.getRows().clear();
 			offset += PAGE_SIZE;
 		}
 		writer.close();
