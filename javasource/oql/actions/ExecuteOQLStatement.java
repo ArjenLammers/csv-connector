@@ -28,6 +28,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.meta.IMetaAssociation;
 import com.mendix.webui.CustomJavaAction;
 import oql.implementation.OQL;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action executes a given OQL statement and accepts parameters.
@@ -66,20 +67,26 @@ import oql.implementation.OQL;
  * 	P.Number = $Number
  * 
  */
-public class ExecuteOQLStatement extends CustomJavaAction<java.util.List<IMendixObject>>
+public class ExecuteOQLStatement extends UserAction<java.util.List<IMendixObject>>
 {
-	private java.lang.String statement;
-	private java.lang.String returnEntity;
-	private java.lang.Long amount;
-	private java.lang.Long offset;
+	private final java.lang.String statement;
+	private final java.lang.String returnEntity;
+	private final java.lang.Long amount;
+	private final java.lang.Long offset;
 
-	public ExecuteOQLStatement(IContext context, java.lang.String statement, java.lang.String returnEntity, java.lang.Long amount, java.lang.Long offset)
+	public ExecuteOQLStatement(
+		IContext context,
+		java.lang.String _statement,
+		java.lang.String _returnEntity,
+		java.lang.Long _amount,
+		java.lang.Long _offset
+	)
 	{
 		super(context);
-		this.statement = statement;
-		this.returnEntity = returnEntity;
-		this.amount = amount;
-		this.offset = offset;
+		this.statement = _statement;
+		this.returnEntity = _returnEntity;
+		this.amount = _amount;
+		this.offset = _offset;
 	}
 
 	@java.lang.Override

@@ -20,28 +20,34 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import csv.impl.CSV;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action will import a CSV.
  */
-public class CountLines extends CustomJavaAction<java.lang.Long>
+public class CountLines extends UserAction<java.lang.Long>
 {
-	private IMendixObject __file;
-	private system.proxies.FileDocument file;
-	private java.lang.Long skipLines;
+	/** @deprecated use file.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __file;
+	private final system.proxies.FileDocument file;
+	private final java.lang.Long skipLines;
 
-	public CountLines(IContext context, IMendixObject file, java.lang.Long skipLines)
+	public CountLines(
+		IContext context,
+		IMendixObject _file,
+		java.lang.Long _skipLines
+	)
 	{
 		super(context);
-		this.__file = file;
-		this.skipLines = skipLines;
+		this.__file = _file;
+		this.file = _file == null ? null : system.proxies.FileDocument.initialize(getContext(), _file);
+		this.skipLines = _skipLines;
 	}
 
 	@java.lang.Override
 	public java.lang.Long executeAction() throws Exception
 	{
-		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
-
 		// BEGIN USER CODE
 		Long counter = 0L;
 		ILogNode logger = CSV.getLogger();

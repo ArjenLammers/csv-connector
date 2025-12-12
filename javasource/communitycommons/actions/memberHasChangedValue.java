@@ -9,31 +9,35 @@
 
 package communitycommons.actions;
 
-import communitycommons.StringUtils;
+import com.mendix.systemwideinterfaces.core.IMendixObject;
+import communitycommons.ORM;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
- * Applies AES encryption to the value string using a symmetric key. 
- * The keylength should exactly be 16 characters (128 bit).
+ * Check if the value of the member was changed to something other than its original value.
  */
-public class DecryptString extends CustomJavaAction<java.lang.String>
+public class memberHasChangedValue extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String valueToDecrypt;
-	private java.lang.String key;
+	private final IMendixObject item;
+	private final java.lang.String member;
 
-	public DecryptString(IContext context, java.lang.String valueToDecrypt, java.lang.String key)
+	public memberHasChangedValue(
+		IContext context,
+		IMendixObject _item,
+		java.lang.String _member
+	)
 	{
 		super(context);
-		this.valueToDecrypt = valueToDecrypt;
-		this.key = key;
+		this.item = _item;
+		this.member = _member;
 	}
 
 	@java.lang.Override
-	public java.lang.String executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		return StringUtils.decryptString(key, valueToDecrypt);
+		return ORM.memberHasChangedValue(getContext(), item, member);
 		// END USER CODE
 	}
 
@@ -44,7 +48,7 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	@java.lang.Override
 	public java.lang.String toString()
 	{
-		return "DecryptString";
+		return "memberHasChangedValue";
 	}
 
 	// BEGIN EXTRA CODE

@@ -26,40 +26,52 @@ import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
 import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVWriter;
 import csv.impl.CSV;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action will export to a CSV.
  */
-public class ExportCSV extends CustomJavaAction<java.lang.Boolean>
+public class ExportCSV extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject __file;
-	private system.proxies.FileDocument file;
-	private java.lang.String microflow;
-	private IMendixObject microflowParameter;
-	private java.lang.Boolean useSystemContext;
-	private java.lang.String separator;
-	private java.lang.String quoteCharacter;
-	private java.lang.String escapeCharacter;
-	private java.lang.String characterSet;
+	/** @deprecated use file.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __file;
+	private final system.proxies.FileDocument file;
+	private final java.lang.String microflow;
+	private final IMendixObject microflowParameter;
+	private final java.lang.Boolean useSystemContext;
+	private final java.lang.String separator;
+	private final java.lang.String quoteCharacter;
+	private final java.lang.String escapeCharacter;
+	private final java.lang.String characterSet;
 
-	public ExportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet)
+	public ExportCSV(
+		IContext context,
+		IMendixObject _file,
+		java.lang.String _microflow,
+		IMendixObject _microflowParameter,
+		java.lang.Boolean _useSystemContext,
+		java.lang.String _separator,
+		java.lang.String _quoteCharacter,
+		java.lang.String _escapeCharacter,
+		java.lang.String _characterSet
+	)
 	{
 		super(context);
-		this.__file = file;
-		this.microflow = microflow;
-		this.microflowParameter = microflowParameter;
-		this.useSystemContext = useSystemContext;
-		this.separator = separator;
-		this.quoteCharacter = quoteCharacter;
-		this.escapeCharacter = escapeCharacter;
-		this.characterSet = characterSet;
+		this.__file = _file;
+		this.file = _file == null ? null : system.proxies.FileDocument.initialize(getContext(), _file);
+		this.microflow = _microflow;
+		this.microflowParameter = _microflowParameter;
+		this.useSystemContext = _useSystemContext;
+		this.separator = _separator;
+		this.quoteCharacter = _quoteCharacter;
+		this.escapeCharacter = _escapeCharacter;
+		this.characterSet = _characterSet;
 	}
 
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
-
 		// BEGIN USER CODE
 		ILogNode logger = CSV.getLogger();
 		

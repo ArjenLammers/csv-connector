@@ -37,6 +37,7 @@ import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVWriter;
 import csv.impl.CSV;
 import system.proxies.FileDocument;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action exports the result of a SQL query to CSV.
@@ -49,28 +50,38 @@ import system.proxies.FileDocument;
  * - Database specific
  *  
  */
-public class ExportSQLToCSV extends CustomJavaAction<IMendixObject>
+public class ExportSQLToCSV extends UserAction<IMendixObject>
 {
-	private java.lang.String statement;
-	private java.lang.Boolean exportHeaders;
-	private java.lang.String returnEntity;
-	private java.lang.Boolean zipResult;
-	private java.lang.String separator;
-	private java.lang.String quoteCharacter;
-	private java.lang.String escapeCharacter;
-	private java.lang.String characterSet;
+	private final java.lang.String statement;
+	private final java.lang.Boolean exportHeaders;
+	private final java.lang.String returnEntity;
+	private final java.lang.Boolean zipResult;
+	private final java.lang.String separator;
+	private final java.lang.String quoteCharacter;
+	private final java.lang.String escapeCharacter;
+	private final java.lang.String characterSet;
 
-	public ExportSQLToCSV(IContext context, java.lang.String statement, java.lang.Boolean exportHeaders, java.lang.String returnEntity, java.lang.Boolean zipResult, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.String characterSet)
+	public ExportSQLToCSV(
+		IContext context,
+		java.lang.String _statement,
+		java.lang.Boolean _exportHeaders,
+		java.lang.String _returnEntity,
+		java.lang.Boolean _zipResult,
+		java.lang.String _separator,
+		java.lang.String _quoteCharacter,
+		java.lang.String _escapeCharacter,
+		java.lang.String _characterSet
+	)
 	{
 		super(context);
-		this.statement = statement;
-		this.exportHeaders = exportHeaders;
-		this.returnEntity = returnEntity;
-		this.zipResult = zipResult;
-		this.separator = separator;
-		this.quoteCharacter = quoteCharacter;
-		this.escapeCharacter = escapeCharacter;
-		this.characterSet = characterSet;
+		this.statement = _statement;
+		this.exportHeaders = _exportHeaders;
+		this.returnEntity = _returnEntity;
+		this.zipResult = _zipResult;
+		this.separator = _separator;
+		this.quoteCharacter = _quoteCharacter;
+		this.escapeCharacter = _escapeCharacter;
+		this.characterSet = _characterSet;
 	}
 
 	@java.lang.Override

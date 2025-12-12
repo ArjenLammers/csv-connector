@@ -4,123 +4,197 @@
 
 package myfirstmodule.proxies.microflows;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-public class Microflows
+public final class Microflows
 {
 	/**
-	 * @deprecated
-	 * The default constructor of the Microflows class should not be used.
-	 * Use the static microflow invocation methods instead.
+	 * Private constructor to prevent instantiation of this class. 
 	 */
-	@java.lang.Deprecated(since = "9.12", forRemoval = true)
-	public Microflows() {}
+	private Microflows() {}
 
 	// These are the microflows for the MyFirstModule module
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_DeleteAllBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_DeleteAll");
+		return builder;
+	}
+
 	public static void aCT_DeleteAll(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_DeleteAll").withParams(params).execute(context);
+		aCT_DeleteAllBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_ExportWithoutQuoteEscapeCharBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_ExportWithoutQuoteEscapeChar");
+		return builder;
+	}
+
 	public static void aCT_ExportWithoutQuoteEscapeChar(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_ExportWithoutQuoteEscapeChar").withParams(params).execute(context);
+		aCT_ExportWithoutQuoteEscapeCharBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestExportOQLWCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestExportOQLWCharset");
+		return builder;
+	}
+
 	public static void aCT_TestExportOQLWCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_TestExportOQLWCharset").withParams(params).execute(context);
+		aCT_TestExportOQLWCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestExportSQLWCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestExportSQLWCharset");
+		return builder;
+	}
+
 	public static void aCT_TestExportSQLWCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_TestExportSQLWCharset").withParams(params).execute(context);
+		aCT_TestExportSQLWCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestExportWCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestExportWCharset");
+		return builder;
+	}
+
 	public static void aCT_TestExportWCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_TestExportWCharset").withParams(params).execute(context);
+		aCT_TestExportWCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestImportSQLWCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestImportSQLWCharset");
+		return builder;
+	}
+
 	public static void aCT_TestImportSQLWCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_TestImportSQLWCharset").withParams(params).execute(context);
+		aCT_TestImportSQLWCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestImportWCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestImportWCharset");
+		return builder;
+	}
+
 	public static void aCT_TestImportWCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.ACT_TestImportWCharset").withParams(params).execute(context);
+		aCT_TestImportWCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder calc_AttrBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.Calc_Attr");
+		return builder;
+	}
+
 	public static java.lang.String calc_Attr(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		return (java.lang.String) Core.microflowCall("MyFirstModule.Calc_Attr").withParams(params).execute(context);
+		Object result = calc_AttrBuilder().execute(context);
+		return (java.lang.String) result;
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder cSV_ExportJPCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.CSV_ExportJPCharset");
+		return builder;
+	}
+
 	public static void cSV_ExportJPCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.CSV_ExportJPCharset").withParams(params).execute(context);
+		cSV_ExportJPCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder cSV_ImportJPCharsetBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.CSV_ImportJPCharset");
+		return builder;
+	}
+
 	public static void cSV_ImportJPCharset(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.CSV_ImportJPCharset").withParams(params).execute(context);
+		cSV_ImportJPCharsetBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder iVK_ExportUsingOQLBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.IVK_ExportUsingOQL");
+		return builder;
+	}
+
 	public static void iVK_ExportUsingOQL(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.IVK_ExportUsingOQL").withParams(params).execute(context);
+		iVK_ExportUsingOQLBuilder().execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder iVK_ExportUsingSQLBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.IVK_ExportUsingSQL");
+		return builder;
+	}
+
 	public static void iVK_ExportUsingSQL(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("MyFirstModule.IVK_ExportUsingSQL").withParams(params).execute(context);
+		iVK_ExportUsingSQLBuilder().execute(context);
 	}
-	public static void iVK_Import(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder iVK_ImportBuilder(
+		java.util.List<myfirstmodule.proxies.CSV> _cSVs
+	)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.List<IMendixObject> listparam_cSVs = null;
-		if (_cSVs != null)
-		{
-			listparam_cSVs = new java.util.ArrayList<>();
-			for (var obj : _cSVs) {
-				listparam_cSVs.add(obj.getMendixObject());
-			}
-		}
-		params.put("CSVs", listparam_cSVs);
-
-		Core.microflowCall("MyFirstModule.IVK_Import").withParams(params).execute(context);
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.IVK_Import");
+		builder = builder.withParam("CSVs", _cSVs);
+		return builder;
 	}
-	public static void iVK_ImportUsingSQL(IContext context, java.util.List<myfirstmodule.proxies.CSV> _cSVs)
+
+	public static void iVK_Import(
+		IContext context,
+		java.util.List<myfirstmodule.proxies.CSV> _cSVs
+	)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.List<IMendixObject> listparam_cSVs = null;
-		if (_cSVs != null)
-		{
-			listparam_cSVs = new java.util.ArrayList<>();
-			for (var obj : _cSVs) {
-				listparam_cSVs.add(obj.getMendixObject());
-			}
-		}
-		params.put("CSVs", listparam_cSVs);
-
-		Core.microflowCall("MyFirstModule.IVK_ImportUsingSQL").withParams(params).execute(context);
+		iVK_ImportBuilder(
+				_cSVs
+			)
+			.execute(context);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder iVK_ImportUsingSQLBuilder(
+		java.util.List<myfirstmodule.proxies.CSV> _cSVs
+	)
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.IVK_ImportUsingSQL");
+		builder = builder.withParam("CSVs", _cSVs);
+		return builder;
+	}
+
+	public static void iVK_ImportUsingSQL(
+		IContext context,
+		java.util.List<myfirstmodule.proxies.CSV> _cSVs
+	)
+	{
+		iVK_ImportUsingSQLBuilder(
+				_cSVs
+			)
+			.execute(context);
+	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder sub_CreateJPCSVBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.Sub_CreateJPCSV");
+		return builder;
+	}
+
 	public static myfirstmodule.proxies.CSV sub_CreateJPCSV(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		IMendixObject result = (IMendixObject)Core.microflowCall("MyFirstModule.Sub_CreateJPCSV").withParams(params).execute(context);
-		return result == null ? null : myfirstmodule.proxies.CSV.initialize(context, result);
+		Object result = sub_CreateJPCSVBuilder().execute(context);
+		return result == null ? null : myfirstmodule.proxies.CSV.initialize(context, (IMendixObject) result);
 	}
+	public static com.mendix.core.actionmanagement.MicroflowCallBuilder sub_CreateJPCSVSQLBuilder()
+	{
+		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.Sub_CreateJPCSVSQL");
+		return builder;
+	}
+
 	public static myfirstmodule.proxies.Export sub_CreateJPCSVSQL(IContext context)
 	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		IMendixObject result = (IMendixObject)Core.microflowCall("MyFirstModule.Sub_CreateJPCSVSQL").withParams(params).execute(context);
-		return result == null ? null : myfirstmodule.proxies.Export.initialize(context, result);
+		Object result = sub_CreateJPCSVSQLBuilder().execute(context);
+		return result == null ? null : myfirstmodule.proxies.Export.initialize(context, (IMendixObject) result);
 	}
 }

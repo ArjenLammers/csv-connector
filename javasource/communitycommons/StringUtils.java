@@ -1,7 +1,6 @@
 package communitycommons;
 
 import com.mendix.core.Core;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import communitycommons.proxies.SanitizerPolicy;
@@ -29,9 +28,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.crypto.Cipher;
 import javax.crypto.Mac;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
@@ -39,7 +36,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.text.StringEscapeUtils;
 import org.owasp.html.PolicyFactory;
 import org.owasp.html.Sanitizers;
 import system.proxies.FileDocument;
@@ -51,7 +49,8 @@ public class StringUtils {
 	private static final String UPPERCASE_ALPHA = stringRange('A', 'Z');
 	private static final String LOWERCASE_ALPHA = stringRange('a', 'z');
 	private static final String DIGITS = stringRange('0', '9');
-	private static final String SPECIAL = stringRange('!', '/');
+	// Used in tests as well
+	static final String SPECIAL = stringRange('!', '/');
 	private static final String ALPHANUMERIC = UPPERCASE_ALPHA + LOWERCASE_ALPHA + DIGITS;
 
 	static final Map<String, PolicyFactory> SANITIZER_POLICIES =
@@ -66,6 +65,12 @@ public class StringUtils {
 
 	public static final String HASH_ALGORITHM = "SHA-256";
 
+	public static String hash(String value) throws NoSuchAlgorithmException, DigestException {
+		int LENGTH = 32;
+		return hash(value, LENGTH);
+	}
+
+	@Deprecated
 	public static String hash(String value, int length) throws NoSuchAlgorithmException, DigestException {
 		byte[] inBytes = value.getBytes(StandardCharsets.UTF_8);
 		byte[] outBytes = new byte[length];
@@ -218,8 +223,12 @@ public class StringUtils {
 			return null;
 		}
 		try (InputStream f = Core.getFileDocumentContent(context, source.getMendixObject())) {
-			return IOUtils.toString(f, charset);
+			return stringFromInputStream(f, charset);
 		}
+	}
+
+	public static String stringFromInputStream(InputStream inputStream, Charset charset) throws IOException {
+		return IOUtils.toString(BOMInputStream.builder().setInputStream(inputStream).get(), charset);
 	}
 
 	public static void stringToFile(IContext context, String value, FileDocument destination) throws IOException {
@@ -243,34 +252,24 @@ public class StringUtils {
 		if (html == null) {
 			return "";
 		}
-		final StringBuffer result = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
 
 		HTMLEditorKit.ParserCallback callback = new HTMLEditorKit.ParserCallback() {
 			@Override
 			public void handleText(char[] data, int pos) {
-				result.append(data); //TODO: needds to be html entity decode?
-			}
-
-			@Override
-			public void handleComment(char[] data, int pos) {
-				//Do nothing
-			}
-
-			@Override
-			public void handleError(String errorMsg, int pos) {
-				//Do nothing
+				result.append(data); // TODO: needs to be html entity decode?
 			}
 
 			@Override
 			public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet a, int pos) {
-				if (tag == HTML.Tag.BR) {
+				if (tag.breaksFlow()) {
 					result.append("\r\n");
 				}
 			}
 
 			@Override
 			public void handleEndTag(HTML.Tag tag, int pos) {
-				if (tag == HTML.Tag.P) {
+				if (tag.breaksFlow() && tag != HTML.Tag.HTML && tag != HTML.Tag.HEAD && tag != HTML.Tag.BODY) {
 					result.append("\r\n");
 				}
 			}
@@ -282,16 +281,17 @@ public class StringUtils {
 	}
 
 	/**
-	 * Returns a random strong password containing a specified minimum number of digits, uppercase
-	 * and special characters.
+	 * Returns a random strong password containing a specified minimum number of uppercase, digits
+	 * and the exact number of special characters.
 	 *
 	 * @param minLen        Minimum length
 	 * @param maxLen        Maximum length
-	 * @param noOfCAPSAlpha Number of capitals
-	 * @param noOfDigits    Number of digits
-	 * @param noOfSplChars  Number of special characters
-	 * @return
+	 * @param noOfCAPSAlpha Minimum number of capitals
+	 * @param noOfDigits    Minimum number of digits
+	 * @param noOfSplChars  Exact number of special characters
+	 * @deprecated          Use the overload randomStrongPassword instead
 	 */
+	@Deprecated
 	public static String randomStrongPassword(int minLen, int maxLen, int noOfCAPSAlpha, int noOfDigits, int noOfSplChars) {
 		if (minLen > maxLen) {
 			throw new IllegalArgumentException("Min. Length > Max. Length!");
@@ -299,22 +299,45 @@ public class StringUtils {
 		if ((noOfCAPSAlpha + noOfDigits + noOfSplChars) > minLen) {
 			throw new IllegalArgumentException("Min. Length should be atleast sum of (CAPS, DIGITS, SPL CHARS) Length!");
 		}
-		return generateCommonLangPassword(minLen, maxLen, noOfCAPSAlpha, noOfDigits, noOfSplChars);
+		return generateCommonLangPassword(minLen, maxLen, noOfCAPSAlpha, 0, noOfDigits, noOfSplChars);
+	}
+
+	/**
+	 * Returns a random strong password containing a specified minimum number of uppercase, lowercase, digits
+	 * and the exact number of special characters.
+	 *
+	 * @param minLen             Minimum length
+	 * @param maxLen             Maximum length
+	 * @param noOfCAPSAlpha      Minimum number of capitals
+	 * @param noOfLowercaseAlpha Minimum number of lowercase letters
+	 * @param noOfDigits         Minimum number of digits
+	 * @param noOfSplChars       Exact number of special characters
+	 */
+	public static String randomStrongPassword(int minLen, int maxLen, int noOfCAPSAlpha, int noOfLowercaseAlpha, int noOfDigits, int noOfSplChars) {
+		if (minLen > maxLen) {
+			throw new IllegalArgumentException("Min. Length > Max. Length!");
+		}
+		if ((noOfCAPSAlpha + noOfLowercaseAlpha + noOfDigits + noOfSplChars) > minLen) {
+			throw new IllegalArgumentException("Min. Length should be atleast sum of (CAPS, LOWER, DIGITS, SPL CHARS) Length!");
+		}
+		return generateCommonLangPassword(minLen, maxLen, noOfCAPSAlpha, noOfLowercaseAlpha, noOfDigits, noOfSplChars);
 	}
 
 	// See https://www.baeldung.com/java-generate-secure-password
 	// Implementation inspired by https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-string-apis (under MIT license)
-	private static String generateCommonLangPassword(int minLen, int maxLen, int noOfCapsAlpha, int noOfDigits, int noOfSplChars) {
+	private static String generateCommonLangPassword(int minLen, int maxLen, int noOfCapsAlpha, int noOfLowercaseAlpha, int noOfDigits, int noOfSplChars) {
 		String upperCaseLetters = randomStringFromCharArray(noOfCapsAlpha, UPPERCASE_ALPHA.toCharArray());
+		String lowerCaseLetters = randomStringFromCharArray(noOfLowercaseAlpha, LOWERCASE_ALPHA.toCharArray());
 		String numbers = randomStringFromCharArray(noOfDigits, DIGITS.toCharArray());
 		String specialChar = randomStringFromCharArray(noOfSplChars, SPECIAL.toCharArray());
 
-		final int fixedNumber = noOfCapsAlpha + noOfDigits + noOfSplChars;
+		final int fixedNumber = noOfCapsAlpha + noOfLowercaseAlpha + noOfDigits + noOfSplChars;
 		final int lowerBound = minLen - fixedNumber;
 		final int upperBound = maxLen - fixedNumber;
 		String totalChars = randomStringFromCharArray(lowerBound, upperBound, ALPHANUMERIC.toCharArray());
 
 		String combinedChars = upperCaseLetters
+			.concat(lowerCaseLetters)
 			.concat(numbers)
 			.concat(specialChar)
 			.concat(totalChars);
@@ -397,56 +420,6 @@ public class StringUtils {
 		return builder.toString();
 	}
 
-	/**
-	 * @deprecated use similar functionality present in the encryption module instead
-	 */
-	@Deprecated
-	public static String encryptString(String key, String valueToEncrypt) throws Exception {
-		if (valueToEncrypt == null) {
-			return null;
-		}
-		if (key == null) {
-			throw new MendixRuntimeException("Key should not be empty");
-		}
-		if (key.length() != 16) {
-			throw new MendixRuntimeException("Key length should be 16");
-		}
-		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(key.getBytes(), "AES");
-		c.init(Cipher.ENCRYPT_MODE, k);
-		byte[] encryptedData = c.doFinal(valueToEncrypt.getBytes());
-		byte[] iv = c.getIV();
-
-		return Base64.getEncoder().encodeToString(iv) + ";" + Base64.getEncoder().encodeToString(encryptedData);
-	}
-
-	/**
-	 * @deprecated use similar functionality present in the encryption module instead
-	 */
-	@Deprecated
-	public static String decryptString(String key, String valueToDecrypt) throws Exception {
-		if (valueToDecrypt == null) {
-			return null;
-		}
-		if (key == null) {
-			throw new MendixRuntimeException("Key should not be empty");
-		}
-		if (key.length() != 16) {
-			throw new MendixRuntimeException("Key length should be 16");
-		}
-		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(key.getBytes(), "AES");
-		String[] s = valueToDecrypt.split(";");
-		if (s.length < 2) //Not an encrypted string, just return the original value.
-		{
-			return valueToDecrypt;
-		}
-		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
-		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
-		c.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
-		return new String(c.doFinal(encryptedData));
-	}
-
 	private static byte[] generateHmacSha256Bytes(String key, String valueToEncrypt) throws UnsupportedEncodingException, IllegalStateException, InvalidKeyException, NoSuchAlgorithmException {
 		SecretKeySpec secretKey = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
 		Mac mac = Mac.getInstance("HmacSHA256");
@@ -515,7 +488,12 @@ public class StringUtils {
 		PolicyFactory policyFactory = null;
 
 		for (SanitizerPolicy param : policyParams) {
-			policyFactory = (policyFactory == null) ? SANITIZER_POLICIES.get(param.name()) : policyFactory.and(SANITIZER_POLICIES.get(param.name()));
+			PolicyFactory policyFactoryForParam = SANITIZER_POLICIES.get(param.name());
+			policyFactory = (policyFactory == null) ? policyFactoryForParam : policyFactory.and(policyFactoryForParam);
+		}
+
+		if (policyFactory == null) {
+			throw new IllegalArgumentException("Sanitizer policy not found.");
 		}
 
 		return sanitizeHTML(html, policyFactory);

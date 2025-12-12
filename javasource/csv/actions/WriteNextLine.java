@@ -19,6 +19,7 @@ import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
 import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVWriter;
 import csv.impl.CSV;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Writes a line from a CSV.
@@ -35,16 +36,20 @@ import csv.impl.CSV;
  * 
  * This is implemented because declared primitives are returned in a different order than declared within the model.
  */
-public class WriteNextLine extends CustomJavaAction<java.lang.Boolean>
+public class WriteNextLine extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String entity;
-	private IMendixObject line;
+	private final java.lang.String entity;
+	private final IMendixObject line;
 
-	public WriteNextLine(IContext context, java.lang.String entity, IMendixObject line)
+	public WriteNextLine(
+		IContext context,
+		java.lang.String _entity,
+		IMendixObject _line
+	)
 	{
 		super(context);
-		this.entity = entity;
-		this.line = line;
+		this.entity = _entity;
+		this.line = _line;
 	}
 
 	@java.lang.Override

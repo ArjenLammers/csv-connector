@@ -23,6 +23,7 @@ import csv.impl.CSV;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
 import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Reads a next line from a CSV.
@@ -39,14 +40,17 @@ import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
  * 
  * This is implemented because declared primitives are returned in a different order than declared within the model.
  */
-public class ReadNextLine extends CustomJavaAction<IMendixObject>
+public class ReadNextLine extends UserAction<IMendixObject>
 {
-	private java.lang.String entity;
+	private final java.lang.String entity;
 
-	public ReadNextLine(IContext context, java.lang.String entity)
+	public ReadNextLine(
+		IContext context,
+		java.lang.String _entity
+	)
 	{
 		super(context);
-		this.entity = entity;
+		this.entity = _entity;
 	}
 
 	@java.lang.Override

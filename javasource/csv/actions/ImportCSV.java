@@ -25,44 +25,58 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import csv.impl.CSV;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action will import a CSV.
  */
-public class ImportCSV extends CustomJavaAction<IMendixObject>
+public class ImportCSV extends UserAction<IMendixObject>
 {
-	private IMendixObject __file;
-	private system.proxies.FileDocument file;
-	private java.lang.String microflow;
-	private IMendixObject microflowParameter;
-	private java.lang.Boolean useSystemContext;
-	private java.lang.String separator;
-	private java.lang.String quoteCharacter;
-	private java.lang.String escapeCharacter;
-	private java.lang.Long skipLines;
-	private java.lang.String returnEntity;
-	private java.lang.String characterSet;
+	/** @deprecated use file.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __file;
+	private final system.proxies.FileDocument file;
+	private final java.lang.String microflow;
+	private final IMendixObject microflowParameter;
+	private final java.lang.Boolean useSystemContext;
+	private final java.lang.String separator;
+	private final java.lang.String quoteCharacter;
+	private final java.lang.String escapeCharacter;
+	private final java.lang.Long skipLines;
+	private final java.lang.String returnEntity;
+	private final java.lang.String characterSet;
 
-	public ImportCSV(IContext context, IMendixObject file, java.lang.String microflow, IMendixObject microflowParameter, java.lang.Boolean useSystemContext, java.lang.String separator, java.lang.String quoteCharacter, java.lang.String escapeCharacter, java.lang.Long skipLines, java.lang.String returnEntity, java.lang.String characterSet)
+	public ImportCSV(
+		IContext context,
+		IMendixObject _file,
+		java.lang.String _microflow,
+		IMendixObject _microflowParameter,
+		java.lang.Boolean _useSystemContext,
+		java.lang.String _separator,
+		java.lang.String _quoteCharacter,
+		java.lang.String _escapeCharacter,
+		java.lang.Long _skipLines,
+		java.lang.String _returnEntity,
+		java.lang.String _characterSet
+	)
 	{
 		super(context);
-		this.__file = file;
-		this.microflow = microflow;
-		this.microflowParameter = microflowParameter;
-		this.useSystemContext = useSystemContext;
-		this.separator = separator;
-		this.quoteCharacter = quoteCharacter;
-		this.escapeCharacter = escapeCharacter;
-		this.skipLines = skipLines;
-		this.returnEntity = returnEntity;
-		this.characterSet = characterSet;
+		this.__file = _file;
+		this.file = _file == null ? null : system.proxies.FileDocument.initialize(getContext(), _file);
+		this.microflow = _microflow;
+		this.microflowParameter = _microflowParameter;
+		this.useSystemContext = _useSystemContext;
+		this.separator = _separator;
+		this.quoteCharacter = _quoteCharacter;
+		this.escapeCharacter = _escapeCharacter;
+		this.skipLines = _skipLines;
+		this.returnEntity = _returnEntity;
+		this.characterSet = _characterSet;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
-
 		// BEGIN USER CODE
 		ILogNode logger = CSV.getLogger();
 		

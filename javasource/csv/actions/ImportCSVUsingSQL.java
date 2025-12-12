@@ -36,6 +36,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import csv.impl.CSV;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Imports a full CSV dataset using optimized SQL batches.
@@ -54,36 +55,47 @@ import csv.impl.CSV;
  * 
  * Only tested for PostgreSQL!
  */
-public class ImportCSVUsingSQL extends CustomJavaAction<java.lang.Long>
+public class ImportCSVUsingSQL extends UserAction<java.lang.Long>
 {
-	private IMendixObject __file;
-	private system.proxies.FileDocument file;
-	private java.lang.String separator;
-	private java.lang.String quoteChar;
-	private java.lang.Long skipLines;
-	private java.lang.String targetEntity;
-	private java.lang.String characterSet;
-	private java.lang.String decimalSeparator;
-	private java.lang.String groupingSeparator;
+	/** @deprecated use file.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __file;
+	private final system.proxies.FileDocument file;
+	private final java.lang.String separator;
+	private final java.lang.String quoteChar;
+	private final java.lang.Long skipLines;
+	private final java.lang.String targetEntity;
+	private final java.lang.String characterSet;
+	private final java.lang.String decimalSeparator;
+	private final java.lang.String groupingSeparator;
 
-	public ImportCSVUsingSQL(IContext context, IMendixObject file, java.lang.String separator, java.lang.String quoteChar, java.lang.Long skipLines, java.lang.String targetEntity, java.lang.String characterSet, java.lang.String decimalSeparator, java.lang.String groupingSeparator)
+	public ImportCSVUsingSQL(
+		IContext context,
+		IMendixObject _file,
+		java.lang.String _separator,
+		java.lang.String _quoteChar,
+		java.lang.Long _skipLines,
+		java.lang.String _targetEntity,
+		java.lang.String _characterSet,
+		java.lang.String _decimalSeparator,
+		java.lang.String _groupingSeparator
+	)
 	{
 		super(context);
-		this.__file = file;
-		this.separator = separator;
-		this.quoteChar = quoteChar;
-		this.skipLines = skipLines;
-		this.targetEntity = targetEntity;
-		this.characterSet = characterSet;
-		this.decimalSeparator = decimalSeparator;
-		this.groupingSeparator = groupingSeparator;
+		this.__file = _file;
+		this.file = _file == null ? null : system.proxies.FileDocument.initialize(getContext(), _file);
+		this.separator = _separator;
+		this.quoteChar = _quoteChar;
+		this.skipLines = _skipLines;
+		this.targetEntity = _targetEntity;
+		this.characterSet = _characterSet;
+		this.decimalSeparator = _decimalSeparator;
+		this.groupingSeparator = _groupingSeparator;
 	}
 
 	@java.lang.Override
 	public java.lang.Long executeAction() throws Exception
 	{
-		this.file = this.__file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
-
 		// BEGIN USER CODE
 		Long result = Core.dataStorage().executeWithConnection(getContext(), executeConnectionAction());
 		logger.info("Imported " + result + " records...");

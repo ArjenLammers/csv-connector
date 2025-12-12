@@ -32,21 +32,28 @@ import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVWriter;
 import oql.implementation.OQL;
 import system.proxies.FileDocument;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class ExportOQLToCSV extends CustomJavaAction<IMendixObject>
+public class ExportOQLToCSV extends UserAction<IMendixObject>
 {
-	private java.lang.String statement;
-	private IMendixObject returnEntity;
-	private java.lang.Boolean removeNewLinesFromValues;
-	private java.lang.Boolean zipResult;
+	private final java.lang.String statement;
+	private final IMendixObject returnEntity;
+	private final java.lang.Boolean removeNewLinesFromValues;
+	private final java.lang.Boolean zipResult;
 
-	public ExportOQLToCSV(IContext context, java.lang.String statement, IMendixObject returnEntity, java.lang.Boolean removeNewLinesFromValues, java.lang.Boolean zipResult)
+	public ExportOQLToCSV(
+		IContext context,
+		java.lang.String _statement,
+		IMendixObject _returnEntity,
+		java.lang.Boolean _removeNewLinesFromValues,
+		java.lang.Boolean _zipResult
+	)
 	{
 		super(context);
-		this.statement = statement;
-		this.returnEntity = returnEntity;
-		this.removeNewLinesFromValues = removeNewLinesFromValues;
-		this.zipResult = zipResult;
+		this.statement = _statement;
+		this.returnEntity = _returnEntity;
+		this.removeNewLinesFromValues = _removeNewLinesFromValues;
+		this.zipResult = _zipResult;
 	}
 
 	@java.lang.Override
