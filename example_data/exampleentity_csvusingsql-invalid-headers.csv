@@ -1,0 +1,3 @@
+"Title","StringAttrNoDef","StringAttr","IntegerAttr12345","IntegerAttrNoDef","LongAttr","LongAttrNoDef","BooleanAttr","DateTimeAttr12","DateTimeAttrNoDef12","EnumAttr12","EnumAttrNoDef12"
+"TestIH1-default values",,"Default value",,"12345",,"123456","false",,"1608123372000","VALID",""
+"TestIH2-all values","All val","All val","12345","12345","123456","123456","true","1608123372000","1608123372000","INVALID","INVALID"
