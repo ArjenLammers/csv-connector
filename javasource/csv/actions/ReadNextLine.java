@@ -10,18 +10,15 @@
 package csv.actions;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import com.opencsv.CSVReader;
 import csv.impl.CSV;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.systemwideinterfaces.core.meta.IMetaObject;
 import com.mendix.systemwideinterfaces.core.meta.IMetaPrimitive;
 import com.mendix.systemwideinterfaces.core.UserAction;
 

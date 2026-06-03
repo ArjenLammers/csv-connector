@@ -66,16 +66,6 @@ public final class Microflows
 	{
 		aCT_TestExportWCharsetBuilder().execute(context);
 	}
-	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestImportSQLWCharsetBuilder()
-	{
-		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestImportSQLWCharset");
-		return builder;
-	}
-
-	public static void aCT_TestImportSQLWCharset(IContext context)
-	{
-		aCT_TestImportSQLWCharsetBuilder().execute(context);
-	}
 	public static com.mendix.core.actionmanagement.MicroflowCallBuilder aCT_TestImportWCharsetBuilder()
 	{
 		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.ACT_TestImportWCharset");
@@ -152,25 +142,6 @@ public final class Microflows
 	)
 	{
 		iVK_ImportBuilder(
-				_cSVs
-			)
-			.execute(context);
-	}
-	public static com.mendix.core.actionmanagement.MicroflowCallBuilder iVK_ImportUsingSQLBuilder(
-		java.util.List<myfirstmodule.proxies.CSV> _cSVs
-	)
-	{
-		com.mendix.core.actionmanagement.MicroflowCallBuilder builder = Core.microflowCall("MyFirstModule.IVK_ImportUsingSQL");
-		builder = builder.withParam("CSVs", _cSVs);
-		return builder;
-	}
-
-	public static void iVK_ImportUsingSQL(
-		IContext context,
-		java.util.List<myfirstmodule.proxies.CSV> _cSVs
-	)
-	{
-		iVK_ImportUsingSQLBuilder(
 				_cSVs
 			)
 			.execute(context);
