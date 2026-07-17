@@ -17,7 +17,8 @@ Imports or exports using the CSV file format.
 Large volume export or import.
 
 ## Features and limitations
-- Import CSV line by line 
+- Import CSV line by line
+- Import CSV using SQL 
 - Write CSV line by line 
 - Write a CSV based on an OQL query
 - Write a CSV based on a SQL query
